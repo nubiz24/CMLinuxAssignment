@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <signal.h>
 
 int main()
 {
@@ -10,22 +9,22 @@ int main()
 
     if (pid < 0)
     {
-        perror("fork thất bại");
-        return 1;
+        perror("fork failed");
+        exit(1);
     }
 
     if (pid == 0)
     {
         // Tiến trình con
-        printf("Tiến trình con (PID=%d) thoát ngay.\n", getpid());
-        exit(0); // kết thúc ngay
+        printf("Child process (PID=%d) exiting...\n", getpid());
+        exit(0);
     }
     else
     {
         // Tiến trình cha
-        printf("Tiến trình cha (PID=%d) tạo tiến trình con PID=%d.\n", getpid(), pid);
-        printf("Tiến trình cha sleep 20 giây, KHÔNG gọi wait().\n");
-        sleep(20); // Không gọi wait() → con thành zombie
+        printf("Parent process (PID=%d) sleeping...\n", getpid());
+        sleep(60); // Không gọi wait(), tạo Zombie
     }
+
     return 0;
 }

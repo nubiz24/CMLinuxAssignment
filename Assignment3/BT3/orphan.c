@@ -9,24 +9,24 @@ int main()
 
     if (pid < 0)
     {
-        perror("fork thất bại");
-        return 1;
+        perror("fork failed");
+        exit(1);
     }
 
-    if (pid == 0)
+    if (pid > 0)
+    {
+        // Tiến trình cha thoát ngay
+        printf("Parent process (PID=%d) exiting...\n", getpid());
+        exit(0);
+    }
+    else
     {
         // Tiến trình con
         for (int i = 0; i < 5; i++)
         {
-            printf("Tiến trình con (PID=%d) có PPID=%d\n", getpid(), getppid());
+            printf("Child PID=%d, PPID=%d\n", getpid(), getppid());
             sleep(2);
         }
-    }
-    else
-    {
-        // Tiến trình cha
-        printf("Tiến trình cha (PID=%d) thoát ngay.\n", getpid());
-        exit(0); // kết thúc ngay lập tức
     }
 
     return 0;
