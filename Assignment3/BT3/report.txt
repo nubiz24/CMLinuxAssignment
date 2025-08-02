@@ -1,0 +1,25 @@
+1. Zombie Process
+- Nguyên nhân:
+Khi một tiến trình con kết thúc, nhân (kernel) giữ lại một phần thông tin về nó trong process table (gồm PID, mã thoát, thời gian CPU dùng…) để cho cha đọc bằng wait() hoặc waitpid().
+Nếu cha không gọi wait(), thông tin này vẫn tồn tại → tiến trình con ở trạng thái Zombie.
+
+- Đặc điểm:
+Không dùng CPU, không chạy code.
+Vẫn chiếm slot trong bảng tiến trình (process table).
+Chỉ biến mất khi cha gọi wait() hoặc cha kết thúc (lúc đó init sẽ nhận nuôi và dọn dẹp).
+
+ -Ý nghĩa:
+Là cơ chế để tiến trình cha có thể lấy mã thoát của con.
+Nhưng nếu cha không xử lý, zombie tồn tại lâu sẽ làm đầy bảng tiến trình → không thể tạo tiến trình mới.
+
+2. Orphan Process
+- Nguyên nhân:
+Khi tiến trình cha kết thúc trước tiến trình con, con trở thành orphan. Hệ điều hành tự động giao con cho tiến trình init (PID=1) hoặc systemd để quản lý.
+
+- Đặc điểm:
+PPID của con sẽ đổi thành 1.
+Khi con kết thúc, init/systemd sẽ tự động gọi wait() để tránh zombie.
+
+Ý nghĩa:
+Cơ chế đảm bảo mọi tiến trình đều có “cha” quản lý.
+Tránh tình trạng zombie tồn tại vĩnh viễn khi cha đã chết.
