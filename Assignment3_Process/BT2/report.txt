@@ -1,0 +1,13 @@
+Khi exec() (ví dụ execlp()) được gọi thành công:
+
+Không gian địa chỉ (address space) của tiến trình đang chạy sẽ bị thay thế hoàn toàn bằng không gian địa chỉ của chương trình mới:
+
+Tất cả mã lệnh (code segment), dữ liệu (data segment), heap, stack... của tiến trình cũ bị xóa bỏ.
+
+File executable của chương trình mới được nạp vào bộ nhớ tiến trình.
+
+PID của tiến trình không đổi (tiến trình vẫn là tiến trình con như trước fork), nhưng tất cả nội dung bộ nhớ của nó là của chương trình mới.
+
+Các biến môi trường (environment variables) và descriptor file mở (nếu không bị đóng bởi exec) vẫn được giữ nguyên và có thể dùng trong chương trình mới.
+
+Lệnh sau exec() không bao giờ được thực thi nếu exec() thành công, trừ khi exec() thất bại (ví dụ file không tồn tại).
