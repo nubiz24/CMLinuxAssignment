@@ -1,0 +1,23 @@
+1. Hàm pthread_create() 
+Cú pháp: int pthread_create(pthread_t *thread,
+                   const pthread_attr_t *attr,
+                   void *(*start_routine)(void*),
+                   void *arg);
+
+Tham số:
+
+pthread_t *thread:
+Con trỏ tới biến kiểu pthread_t dùng để lưu ID của luồng vừa tạo. Sau khi gọi thành công, biến này chứa định danh của luồng.
+
+const pthread_attr_t *attr:
+Thuộc tính của luồng (ví dụ: kích thước stack, trạng thái detached/joinable).
+Nếu để NULL thì dùng mặc định.
+
+void *(*start_routine)(void*):
+Con trỏ hàm mà luồng sẽ chạy khi bắt đầu.
+Hàm này phải có dạng: void* func(void* arg);
+
+void *arg:
+Tham số truyền vào cho start_routine. Nếu không cần, truyền NULL.
+
+2. Hàm pthread_join()
